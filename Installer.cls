@@ -8,10 +8,12 @@ XData setup
   <Default Name="database" Value="irisapp"/>
   
   <Namespace Name="${Namespace}" Code="${Namespace}" Data="${Namespace}" Create="yes" Ensemble="no">
-
     <Configuration>
       <Database Name="${Namespace}" Dir="${mgrdir}${database}/data" Create="yes" Resource="%DB_${Namespace}"/>
     </Configuration>
+    <Import File="/opt/irisbuild/src" Flags="ck" Recurse="1" />
+    <Invoke Class="VX130.Instancev004" Method="Initialize" CheckStatus="0" />
+    <Invoke Class="VX130.JournalFilev004" Method="AddJFiles" CheckStatus="0" />
   </Namespace>
 </Manifest>
 }

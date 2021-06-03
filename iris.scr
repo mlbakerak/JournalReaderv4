@@ -1,0 +1,6 @@
+// Unexpire passwords for dev mode
+zn "%SYS"
+do ##class(Security.Users).UnExpireUserPasswords("*")
+do $SYSTEM.OBJ.Load("/opt/irisbuild/zstart.int", "ck") 
+
+halt

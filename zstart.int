@@ -1,0 +1,8 @@
+ROUTINE %ZSTART [Type=INT]
+%ZSTART ; mlb Start Up Routine for IRIS
+    quit
+SYSTEM ;
+    do ##class(Security.Users).UnExpireUserPasswords("*")
+    do $SYSTEM.OBJ.Load("/opt/irisbuild/Installer.cls", "ck") 
+    set sc = ##class(App.Installer).setup() 
+    quit

@@ -15,12 +15,9 @@ WORKDIR /opt/irisbuild
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/irisbuild
 USER ${ISC_PACKAGE_MGRUSER}
 
-#COPY  Installer.cls .
 COPY  src src
-COPY Installer.cls Installer.cls
-COPY module.xml module.xml
-COPY iris.script iris.script
+COPY Installer.cls zstart.int iris.scr /opt/irisbuild/
 
 RUN iris start IRIS \
-	&& iris session IRIS < iris.script \
+	&& iris session IRIS < iris.scr \
     && iris stop IRIS quietly

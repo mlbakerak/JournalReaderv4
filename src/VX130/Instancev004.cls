@@ -1,5 +1,5 @@
 /// Description
-Class VX130.Instance Extends %Persistent
+Class VX130.Instancev004 Extends %Persistent
 {
 
 /// Description
@@ -47,13 +47,13 @@ ClassMethod GetInstanceId(ByRef id As %Integer) As %Status
     Catch ex {
         Set tSC=ex.AsStatus()
     }
-    &sql(SELECT ID INTO :id from VX130.Instance WHERE InstanceName=:instanceName and IPAddress=:ipAddress)
+    &sql(SELECT ID INTO :id from VX130.Instancev004 WHERE InstanceName=:instanceName and IPAddress=:ipAddress)
     Return sc
 }
 
 Storage Default
 {
-<Data name="InstanceDefaultData">
+<Data name="Instancev004DefaultData">
 <Value name="1">
 <Value>%%CLASSNAME</Value>
 </Value>
@@ -70,11 +70,11 @@ Storage Default
 <Value>IPAddress</Value>
 </Value>
 </Data>
-<DataLocation>^VX130.InstanceD</DataLocation>
-<DefaultData>InstanceDefaultData</DefaultData>
-<IdLocation>^VX130.InstanceD</IdLocation>
-<IndexLocation>^VX130.InstanceI</IndexLocation>
-<StreamLocation>^VX130.InstanceS</StreamLocation>
+<DataLocation>^VX130.Instancev004D</DataLocation>
+<DefaultData>Instancev004DefaultData</DefaultData>
+<IdLocation>^VX130.Instancev004D</IdLocation>
+<IndexLocation>^VX130.Instancev004I</IndexLocation>
+<StreamLocation>^VX130.Instancev004S</StreamLocation>
 <Type>%Storage.Persistent</Type>
 }
 
