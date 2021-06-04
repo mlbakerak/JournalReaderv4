@@ -30,6 +30,9 @@ Property NumberAddedToSetQueue As %Integer;
 Property NumberAddedToKillQueue As %Integer;
 
 /// Description
+Property NumberFoundInQueue As %Integer;
+
+/// Description
 Index InstanceIndex On (Instance, JournalFile);
 
 /// Description
@@ -43,13 +46,16 @@ ClassMethod Start() As %Status
         set itr = journals.%GetIterator()
         while itr.%GetNext(.key,.jf)
         {
-            set ojfh=..%New()
-            set ojfh.Instance=##class(VX130.Instancev004).%OpenId(instId)
-            set ojfh.JournalFile=##class(VX130.JournalFilev004).%OpenId(jf.id)
-            set ojfh.JournalFile.CurrentlyReadingFile=1
-            set ojfh.StartOffset=jf.StartOffset
-            set ojfh.StartDateTime=$ZDATETIME($ZTIMESTAMP,3)
-            set sc=ojfh.%Save()
+            set ojrh=..%New()
+            set ojrh.Instance=##class(VX130.Instancev004).%OpenId(instId)
+            set ojrh.JournalFile=##class(VX130.JournalFilev004).%OpenId(jf.id)
+            set ojrh.JournalFile.CurrentlyReadingFile=1
+            set ojrh.StartOffset=jf.StartOffset
+            set ojrh.StartDateTime=$ZDATETIME($ZTIMESTAMP,3)
+            set sc=ojrh.%Save()
+            set id=ojrh.%Id()
+            kill ojrh
+            job ##class(VX130.JournalReaderv004).Start(id)
         }
     }
     Catch ex {
@@ -72,6 +78,7 @@ ClassMethod GetJournalData(instId As %String, ByRef journals As %DynamicArray) A
             set id=rset.JournalFile
             set jfile.id=id
             set jfile.JournalFile=rset.JournalFileDirectory_rset.JournalFileName
+            set jfile.FileClosed=rset.FileClosed
             &sql(SELECT TOP 1 EndOffset INTO :end FROM VX130.JournalReaderHistoryv004 WHERE Instance=:instId and JournalFile=:id ORDER BY EndDateTime DESC)
             set jfile.StartOffset=$Select($Get(end):end,1:"0")
             do journals.%Push(jfile)
@@ -116,6 +123,9 @@ Storage Default
 </Value>
 <Value name="10">
 <Value>NumberAddedToKillQueue</Value>
+</Value>
+<Value name="11">
+<Value>NumberFoundInQueue</Value>
 </Value>
 </Data>
 <DataLocation>^VX130.JournalReadFABCD</DataLocation>

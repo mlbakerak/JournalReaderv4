@@ -33,7 +33,7 @@ Index InstanceIndex On (Instance, JournalFileName) [ Unique ];
 Index EntireFileReadIndex On (Instance, EntireFileRead);
 
 /// Description
-ClassMethod AddJFiles() As %Status
+ClassMethod AddFiles() As %Status
 {
     Set sc = $$$OK
     Try {
@@ -101,7 +101,7 @@ Method setFileClosed() As %Status
 /// Description
 Query IncompleteJournalFiles(instanceId As %String) As %SQLQuery [ SqlProc ]
 {
-    SELECT ID As JournalFile, JournalFileName, JournalFileDirectory
+    SELECT ID As JournalFile, JournalFileName, JournalFileDirectory, FileClosed
     FROM VX130.JournalFilev004
     WHERE Instance=:instanceId
     AND EntireFileRead IS NULL
